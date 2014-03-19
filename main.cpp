@@ -12,20 +12,23 @@ public:
 		REG_MEMBER(_int, x);
 		REG_MEMBER(_int, y);
 	}ENDSAVE;
+	friend std::ostream & operator<<(std::ostream & os, Point & p);
 };
 
 int main() {
 	using namespace std;
 	Point p(3, 4, 5);
-	cout << "Current data:\n";
-	cout << "x = " << p.x << std::endl
-	     << "y = " << p.y << std::endl
-	     << "z = " << p.z << std::endl;
-	p.Save(std::cout);
+	cout << "Current data:\n" << p;
+	p.Save(cout);		// serialization - output to std::cout
 	cout << "Loading...\n";
-	p.Load(std::cin);
-	p.Save(std::cout);
-	std::cout << "x = " << p.x << std::endl;
-	std::cout << "y = " << p.y << std::endl;
-	std::cout << "z = " << p.z << std::endl;
+	p.Load(cin);		// deserialization - input from std::cin
+	p.Save(cout);		// serialization one more time to see how data-members are changed 
+	cout << p;
+}
+
+std::ostream & operator<<(std::ostream & os, Point & p) {
+	os << "x = " << p.x << std::endl
+	   << "y = " << p.y << std::endl
+	   << "z = " << p.z << std::endl;
+	return os;
 }
